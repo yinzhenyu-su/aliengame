@@ -1,7 +1,7 @@
 import pygame
+from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
-from pygame.sprite import Group
 from game_state import GameStates
 from button import Button
 from scoreboard import Scoreboard
@@ -29,6 +29,8 @@ def run_game():
     play_button = Button(ai_settings, screen, "Play")
     # 记分版
     sb = Scoreboard(ai_settings, screen, stats)
+    #加载最高分
+    gf.load_settings(stats)
     # 开始游戏的主循环
     while True:
         # 监视键盘和鼠标事件

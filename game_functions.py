@@ -1,8 +1,32 @@
 import sys
 import pygame
+import json
 from time import sleep
+
 from bullet import Bullet
 from alien import Alien
+
+
+def load_settings(stats):
+    """从文件中加载得分"""
+    filename = 'settings.json'
+    try:
+        with open(filename) as file_object:
+            settings = json.load(file_object)
+            stats.high_score = settings['high_score']
+    except FileNotFoundError as e:
+        print(e)
+        write_settings(stats)
+        pass
+
+
+def write_settings(stats):
+    """保存最高分"""
+    filename = 'settings.json'
+    settings = {}
+    settings['high_score'] = stats.high_score
+    with open(filename, 'w') as file_object:
+        json.dump(settings, file_object)
 
 
 def check_aliens_bottom(ai_settings, stats, sb, screen, ship, aliens, bullets):
@@ -149,14 +173,20 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
     """响应按键和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            sys.exit()
+            program_exiting(stats)
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, stats, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
-            check_keyup_events(event, ship)
+            check_keyup_events(ai_settings, screen, event, ship, bullets)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
+
+
+def program_exiting(stats):
+    """程序退出时保存设置"""
+    write_settings(stats)
+    sys.exit()
 
 
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
@@ -182,7 +212,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         ship.center_ship()
 
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, stats, screen, ship, bullets):
     """按键按下"""
 
     if event.key == pygame.K_RIGHT:
@@ -194,13 +224,13 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_up = True
     elif event.key == pygame.K_DOWN:
         ship.moving_down = True
-    elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
-        fire_bullet(ai_settings, screen, ship, bullets)
+    # elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+    #     pass
     elif event.key == pygame.K_q:
-        sys.exit()
+        program_exiting(stats)
 
 
-def check_keyup_events(event, ship):
+def check_keyup_events(ai_settings, screen, event, ship, bullets):
     """按键松开"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
@@ -210,6 +240,8 @@ def check_keyup_events(event, ship):
         ship.moving_up = False
     elif event.key == pygame.K_DOWN:
         ship.moving_down = False
+    elif event.key == pygame.K_RCTRL or event.key == pygame.K_LCTRL:
+        fire_bullet(ai_settings, screen, ship, bullets)
 
 
 def check_high_score(stats, sb):
