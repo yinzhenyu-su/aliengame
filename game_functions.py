@@ -163,7 +163,7 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
-    # 创建一颗子弹并将其加入到编组bullets中
+    """创建一颗子弹并将其加入到编组bullets中"""
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
