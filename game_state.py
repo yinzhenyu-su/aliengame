@@ -1,3 +1,4 @@
+import json
 class GameStates():
     """跟踪统计游戏信息"""
 
@@ -10,7 +11,9 @@ class GameStates():
         # 初始化分数
         self.score = 0
         # 在任何情况下都不应改重置最高分
-        self.high_score = 0
+        with open("settings.json") as fileobj:
+            self.high_score = json.load(fileobj)
+        
 
     def reset_stats(self):
         """重置状态"""

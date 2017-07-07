@@ -23,13 +23,13 @@ def run_game():
     aliens = Group()
     # 创建一个用于游戏统计的实例
     stats = GameStates(ai_settings)
-    pygame.display.set_caption("Alien Invasion")
+    pygame.display.set_caption("外星人大战")
     gf.create_fleet(ai_settings, screen, ship, aliens)
     # 开始按钮
     play_button = Button(ai_settings, screen, "Play")
     # 记分版
     sb = Scoreboard(ai_settings, screen, stats)
-    #加载最高分
+    # 加载最高分
     gf.load_settings(stats)
     # 开始游戏的主循环
     while True:
