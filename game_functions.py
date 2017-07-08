@@ -3,7 +3,6 @@ import pygame
 import json
 from time import sleep
 
-from game_state import GameStates as gs
 from bullet import Bullet
 from alien import Alien
 
