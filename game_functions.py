@@ -3,6 +3,7 @@ import pygame
 import json
 from time import sleep
 
+from game_state import GameStates as gs
 from bullet import Bullet
 from alien import Alien
 
@@ -226,8 +227,13 @@ def check_keydown_events(event, ai_settings, stats, screen, ship, bullets):
         ship.moving_down = True
     # elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
     #     pass
-    elif event.key == pygame.K_q:
+    elif event.key == pygame.K_ESCAPE:
         program_exiting(stats)
+    elif event.key == pygame.K_SPACE:
+        if stats.game_active:
+            stats.game_active = False
+        else:
+            stats.game_active = True;
 
 
 def check_keyup_events(ai_settings, screen, event, ship, bullets):
