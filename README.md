@@ -2,11 +2,11 @@
 外星人大战
 
 
-##requirements
+## requirements
 
 pygame
 
-##入口文件
+## 入口文件
 
 alien_invasion.py
 
