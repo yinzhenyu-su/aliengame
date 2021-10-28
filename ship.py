@@ -34,11 +34,11 @@ class Ship(Sprite):
         # 更新飞船的center值而不是rect
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.ship_speed_factor
-        elif self.moving_left and self.rect.left > 0:
+        if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
-        elif self.moving_up and self.rect.top > self.screen_rect.top:
+        if self.moving_up and self.rect.top > self.screen_rect.top:
             self.bottom -= self.ai_settings.ship_speed_factor
-        elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.bottom += self.ai_settings.ship_speed_factor
         # 根据self.centerx更新rect对象
         self.rect.centerx = self.center
